@@ -93,7 +93,6 @@ function App() {
     }
     setActiveRunConfig(validation.values);
     setVehicleQueue(createVehicleQueue(validation.values));
-    setVehicleQueue(createVehicleQueue(validation.values));
     setSimulation(
       startSimulationClock(
         createSimulationClock({ greenDuration: validation.values.green_duration }),

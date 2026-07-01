@@ -15,7 +15,7 @@ export function createVehicleQueue(config) {
     position: -config.initial_spacing * (index + 1),
     velocity: 0,
     reactionDelay: sampleDelay(),
-    waitRemaining: sampleDelay === null ? 0 : undefined,
+    waitRemaining: 0,
     hasStarted: false,
     isTracked: index === config.num_cars - 1,
     crossTime: null,
