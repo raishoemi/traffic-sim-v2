@@ -2,6 +2,8 @@ import { kineticStep } from './kinematics.js';
 import { didCrossStopLine } from './pass-fail.js';
 import { createRng, sampleReactionDelay } from './rng.js';
 
+const CROSS_TIME_PRECISION = 4;
+
 function createDelaySampler({ rng_seed, reaction_delay_mean, reaction_delay_std }) {
   const rng = rng_seed === null || rng_seed === undefined ? Math.random : createRng(rng_seed);
   return () => sampleReactionDelay(rng, reaction_delay_mean, reaction_delay_std);
@@ -29,7 +31,7 @@ export function getTrackedVehicle(queue) {
   return queue.find((vehicle) => vehicle.isTracked) ?? queue.at(-1) ?? null;
 }
 
-export function advanceVehicleQueue(queue, config, { currentTime }) {
+export function advanceVehicleQueue(queue, config, { stepStartTime }) {
   const nextQueue = [];
 
   for (let index = 0; index < queue.length; index += 1) {
@@ -76,7 +78,9 @@ export function advanceVehicleQueue(queue, config, { currentTime }) {
       const distanceToLine = Math.abs(vehicle.position);
       const traveledDistance = Math.abs(nextPosition - vehicle.position);
       const interpolationFactor = traveledDistance === 0 ? 0 : distanceToLine / traveledDistance;
-      crossTime = Number((currentTime + interpolationFactor * config.time_step).toFixed(4));
+      crossTime = Number(
+        (stepStartTime + interpolationFactor * config.time_step).toFixed(CROSS_TIME_PRECISION),
+      );
     }
 
     nextQueue.push({

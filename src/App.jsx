@@ -62,7 +62,7 @@ function App() {
           timeStep: activeRunConfig.time_step,
         });
         setVehicleQueue((queue) =>
-          advanceVehicleQueue(queue, activeRunConfig, { currentTime: current.simTime }),
+          advanceVehicleQueue(queue, activeRunConfig, { stepStartTime: current.simTime }),
         );
         return next;
       });
@@ -151,8 +151,12 @@ function App() {
           : validation.isValid
             ? 'Ready to run'
             : 'Resolve validation errors to enable Run';
-  const resultStatusLabel =
-    trialResult?.status === 'pass' ? 'PASS' : trialResult?.status === 'fail' ? 'FAIL' : 'Waiting';
+  let resultStatusLabel = 'Waiting';
+  if (trialResult?.status === 'pass') {
+    resultStatusLabel = 'PASS';
+  } else if (trialResult?.status === 'fail') {
+    resultStatusLabel = 'FAIL';
+  }
   const resultDetail = trialResult
     ? trialResult.crossTime !== null
       ? `Tracked car crossed the stop line at ${formatSeconds(trialResult.crossTime)}.`

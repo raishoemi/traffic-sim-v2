@@ -44,20 +44,20 @@ test('advanceVehicleQueue: lead car reacts first and followers wait for the queu
   };
 
   let queue = createVehicleQueue(config);
-  queue = advanceVehicleQueue(queue, config, { currentTime: 0 });
+  queue = advanceVehicleQueue(queue, config, { stepStartTime: 0 });
 
   assert.equal(queue[0].hasStarted, false);
   assert.equal(queue[0].velocity, 0);
   assert.equal(queue[1].waitRemaining, 0.1);
 
-  queue = advanceVehicleQueue(queue, config, { currentTime: 0.05 });
+  queue = advanceVehicleQueue(queue, config, { stepStartTime: 0.05 });
 
   assert.equal(queue[0].hasStarted, true);
   assert.equal(queue[0].velocity, 0.1);
   assert.equal(queue[1].hasStarted, false);
   assert.equal(queue[1].waitRemaining, 0.1);
 
-  queue = advanceVehicleQueue(queue, config, { currentTime: 0.1 });
+  queue = advanceVehicleQueue(queue, config, { stepStartTime: 0.1 });
 
   assert.equal(queue[1].waitRemaining, 0.05);
   assert.ok(queue[1].position < queue[0].position);
@@ -77,8 +77,8 @@ test('advanceVehicleQueue: preserves tracked car crossing time', () => {
   };
 
   let queue = createVehicleQueue(config);
-  queue = advanceVehicleQueue(queue, config, { currentTime: 0 });
-  queue = advanceVehicleQueue(queue, config, { currentTime: 0.5 });
+  queue = advanceVehicleQueue(queue, config, { stepStartTime: 0 });
+  queue = advanceVehicleQueue(queue, config, { stepStartTime: 0.5 });
 
   const tracked = getTrackedVehicle(queue);
 
