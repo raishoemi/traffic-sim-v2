@@ -1,16 +1,32 @@
-# React + Vite
+# traffic-sim-v2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Single-page traffic simulation app built with React + Vite.
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 20+
+- npm 10+
 
-## React Compiler
+## Getting started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+## Available scripts
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `npm run dev` — start local dev server
+- `npm run build` — create production build
+- `npm run preview` — preview production build
+- `npm run lint` — run ESLint
+- `npm test` — run test suite
+- `npm run format` — check formatting with Prettier
+
+## Repository status
+
+This repository is scaffolded and ready for incremental implementation of the traffic simulator features described in:
+
+- `/docs/intent/traffic-sim.md`
+- `/docs/specs/traffic-sim-spec.md`
+- `/docs/tasks/todo-list.md`
