@@ -88,6 +88,10 @@ test('describeSeedMode: distinguishes seeded, random, and deterministic runs', (
     'Randomized run · seed varies',
   );
   assert.equal(
+    describeSeedMode({ rng_seed: '', reaction_delay_std: 0.2 }),
+    'Randomized run · seed varies',
+  );
+  assert.equal(
     describeSeedMode({ rng_seed: null, reaction_delay_std: 0 }),
     'Deterministic run · variance disabled',
   );

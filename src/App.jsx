@@ -17,13 +17,24 @@ import {
 const DEFAULT_PARAMETER_VALIDATION = validateParameterDraft(createParameterDraft());
 
 if (!DEFAULT_PARAMETER_VALIDATION.isValid) {
-  throw new Error('Default parameters must stay valid.');
+  const errorSummary = Object.entries(DEFAULT_PARAMETER_VALIDATION.errors)
+    .map(([fieldName, message]) => `${fieldName}: ${message}`)
+    .join(', ');
+  throw new Error(`Default parameters must stay valid. ${errorSummary}`);
 }
 
 const DEFAULT_VALID_PARAMETERS = DEFAULT_PARAMETER_VALIDATION.values;
 
 function formatSeconds(value) {
   return `${value.toFixed(2)} s`;
+}
+
+function resolveDisplayedRunConfig(validation, activeRunConfig, phase) {
+  if (phase === 'idle' && validation.isValid) {
+    return validation.values;
+  }
+
+  return activeRunConfig;
 }
 
 function App() {
@@ -85,15 +96,13 @@ function App() {
     setSimulation((current) => pauseSimulationClock(current));
   };
 
+  const runConfig = resolveDisplayedRunConfig(validation, activeRunConfig, simulation.phase);
   const handleSimulationReset = () => {
-    const nextConfig =
-      simulation.phase === 'idle' && validation.isValid ? validation.values : activeRunConfig;
-    setActiveRunConfig(nextConfig);
-    setSimulation(createSimulationClock({ greenDuration: nextConfig.green_duration }));
+    const resetRunConfig = runConfig;
+    setActiveRunConfig(resetRunConfig);
+    setSimulation(createSimulationClock({ greenDuration: resetRunConfig.green_duration }));
   };
 
-  const runConfig =
-    simulation.phase === 'idle' && validation.isValid ? validation.values : activeRunConfig;
   const isRunDisabled = !validation.isValid && simulation.phase !== 'paused';
   const isPauseDisabled = simulation.phase !== 'running';
   const isResetDisabled = simulation.phase === 'idle' && simulation.simTime === 0;
