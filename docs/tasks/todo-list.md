@@ -2,7 +2,7 @@
 
 This file lists actionable todos exported from the session task tracker. Use the session SQL (`todos` and `todo_deps`) to update status as you work.
 
-Next ready task: repo-scaffold
+Next ready task: ui-params
 
 ---
 
@@ -12,21 +12,21 @@ Next ready task: repo-scaffold
    - Title: Scaffold React+Vite repo and CI
    - Description: Create a Vite + React scaffold, add ESLint/Prettier, basic CI job (install, test), initial README and license.
    - Estimate: 2h
-   - Status: pending
+   - Status: done
    - Depends on: (none)
 
 2. id: sim-core
    - Title: Simulation core: kinematics & RNG
    - Description: Implement kinematic update loop, reaction-delay sampling (Normal clipped at 0), RNG/seed support, unit tests for update and sampling.
    - Estimate: 4h
-   - Status: pending
+   - Status: done
    - Depends on: repo-scaffold
 
 3. id: pass-fail
    - Title: Pass/fail logic and deterministic scenarios
    - Description: Implement stop-line crossing detection, green timer check, and create deterministic unit/integration scenarios that assert pass or fail.
    - Estimate: 2h
-   - Status: pending
+   - Status: done
    - Depends on: sim-core
 
 4. id: ui-params
