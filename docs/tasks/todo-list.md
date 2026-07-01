@@ -49,7 +49,7 @@ Task completion rule: when you finish a task, update its status in this file bef
    - Title: Canvas animator and visuals
    - Description: Render top-down view on Canvas: lane, stop line, traffic light state, vehicles, highlight tracked car; implement animation loop synchronized with sim time.
    - Estimate: 4h
-   - Status: pending
+   - Status: done
    - Depends on: sim-core, ui-controls
 
 7. id: integration-tests
