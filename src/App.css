@@ -212,6 +212,46 @@
   margin: 0;
 }
 
+.canvas-frame {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.simulation-canvas {
+  display: block;
+  max-width: 100%;
+}
+
+.canvas-legend {
+  align-items: center;
+  color: var(--text-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 16px;
+}
+
+.legend-swatch {
+  border-radius: 999px;
+  display: inline-block;
+  height: 12px;
+  width: 28px;
+}
+
+.legend-swatch--tracked {
+  background: var(--accent);
+}
+
+.legend-swatch--queue {
+  background: #475569;
+}
+
+.legend-swatch--stop-line {
+  background: var(--danger);
+}
+
 .summary-row {
   align-items: baseline;
   border-top: 1px solid var(--border);
