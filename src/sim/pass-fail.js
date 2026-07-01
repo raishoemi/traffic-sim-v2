@@ -63,8 +63,8 @@ export function simulatePassFailScenario(params) {
     const nextTime = time + dt;
 
     if (didCrossStopLine(state.position, next.position, stopLinePosition)) {
-      const distanceToLine = state.position - stopLinePosition;
-      const traveledDistance = state.position - next.position;
+      const distanceToLine = Math.abs(state.position - stopLinePosition);
+      const traveledDistance = Math.abs(next.position - state.position);
       const interpolationFactor =
         traveledDistance === 0 ? 0 : distanceToLine / traveledDistance;
       const crossTime = time + interpolationFactor * dt;
