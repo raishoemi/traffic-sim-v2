@@ -2,7 +2,9 @@
 
 This file lists actionable todos exported from the session task tracker. Use the session SQL (`todos` and `todo_deps`) to update status as you work.
 
-Next ready task: ui-params
+Next ready tasks: canvas-animator, build-deploy
+
+Task completion rule: when you finish a task, update its status in this file before you stop. If the session SQL tracker is populated, keep that status in sync there too.
 
 ---
 
@@ -33,14 +35,14 @@ Next ready task: ui-params
    - Title: UI: parameters panel
    - Description: Build parameter form with inputs for green_duration, reaction_delay_mean/std, max_velocity, accel, brake, initial_spacing, num_cars, time_step, rng_seed; include validation and sensible defaults.
    - Estimate: 3h
-   - Status: pending
+   - Status: done
    - Depends on: repo-scaffold
 
 5. id: ui-controls
    - Title: UI controls: Run/Pause/Reset/Seed
    - Description: Implement Run, Pause, Reset buttons, seed input, current sim time and light time remaining display.
    - Estimate: 2h
-   - Status: pending
+   - Status: done
    - Depends on: repo-scaffold
 
 6. id: canvas-animator

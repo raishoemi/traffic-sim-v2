@@ -30,6 +30,11 @@
   grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
 }
 
+.primary-stack {
+  display: grid;
+  gap: 24px;
+}
+
 .panel {
   background: var(--panel-bg);
   border: 1px solid var(--border);
@@ -44,6 +49,11 @@
   gap: 16px;
   justify-content: space-between;
   margin-bottom: 24px;
+}
+
+.panel-header--stacked {
+  align-items: stretch;
+  flex-direction: column;
 }
 
 .parameter-panel h2,
@@ -62,7 +72,26 @@
   white-space: nowrap;
 }
 
+.primary-button {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: #0b1020;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 0.7rem 1.1rem;
+  white-space: nowrap;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .secondary-button:focus-visible,
+.primary-button:focus-visible,
 .field input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -120,8 +149,18 @@
 
 .status {
   border-radius: 14px;
+  display: grid;
+  gap: 4px;
   margin-bottom: 20px;
   padding: 14px 16px;
+}
+
+.status-label {
+  font-weight: 700;
+}
+
+.status-detail {
+  font-size: 0.95rem;
 }
 
 .status.is-valid {
@@ -137,6 +176,39 @@
 .summary-list {
   display: grid;
   gap: 12px;
+  margin: 0;
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.telemetry-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin: 0;
+}
+
+.telemetry-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.telemetry-card dt {
+  color: var(--text-soft);
+  margin-bottom: 8px;
+}
+
+.telemetry-card dd {
+  color: var(--text-h);
+  font-size: 1.05rem;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -171,6 +243,10 @@
 
   .panel-header {
     align-items: stretch;
+    flex-direction: column;
+  }
+
+  .controls-row {
     flex-direction: column;
   }
 
