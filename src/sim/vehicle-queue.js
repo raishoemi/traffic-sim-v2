@@ -77,6 +77,7 @@ export function advanceVehicleQueue(queue, config, { stepStartTime }) {
     if (crossTime === null && didCrossStopLine(vehicle.position, nextPosition)) {
       const distanceToLine = Math.abs(vehicle.position);
       const traveledDistance = Math.abs(nextPosition - vehicle.position);
+      // Interpolate within the current step: 0 means "at step start", 1 means "at step end".
       const interpolationFactor = traveledDistance === 0 ? 0 : distanceToLine / traveledDistance;
       crossTime = Number(
         (stepStartTime + interpolationFactor * config.time_step).toFixed(CROSS_TIME_PRECISION),

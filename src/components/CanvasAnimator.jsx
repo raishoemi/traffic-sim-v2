@@ -55,12 +55,9 @@ export function CanvasAnimator({ vehicles, simulation }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const [canvasWidth, setCanvasWidth] = useState(720);
-  const trackedVehicle = vehicles.find((vehicle) => vehicle.isTracked) ?? null;
-  const canvasLabel = `Top-down traffic simulation canvas with ${vehicles.length} vehicles. Simulation is ${simulation.phase}. ${
-    trackedVehicle
-      ? `Tracked car position is ${trackedVehicle.position.toFixed(2)} meters.`
-      : 'No tracked car is available.'
-  }`;
+  const canvasLabel = `Top-down traffic simulation canvas with ${vehicles.length} vehicles. The tracked car is blue and the light is ${
+    simulation.phase === 'completed' ? 'red' : 'green'
+  }.`;
 
   useEffect(() => {
     const container = containerRef.current;
