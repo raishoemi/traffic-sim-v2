@@ -27,7 +27,8 @@ export function createCanvasScene({ width, height, simulation, vehicles }) {
     },
     stopLineX: worldToCanvasX(0, minPosition, maxPosition, width),
     light: {
-      state: simulation.phase === 'completed' ? 'red' : 'green',
+      state:
+        simulation.phase === 'running' || simulation.phase === 'paused' ? 'green' : 'red',
       x: width - CANVAS_PADDING - 18,
       y: laneTop - 18,
       radius: 12,

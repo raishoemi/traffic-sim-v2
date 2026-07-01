@@ -19,3 +19,14 @@ test('createCanvasScene: maps the stop line, light state, and tracked car into t
   assert.equal(scene.vehicles[1].isTracked, true);
   assert.ok(scene.vehicles[0].x > scene.vehicles[1].x);
 });
+
+test('createCanvasScene: keeps idle runs red until the simulation starts', () => {
+  const scene = createCanvasScene({
+    width: 800,
+    height: 240,
+    simulation: { phase: 'idle', simTime: 0, lightTimeRemaining: 8 },
+    vehicles: [{ id: 'car-1', position: -4, isTracked: true }],
+  });
+
+  assert.equal(scene.light.state, 'red');
+});

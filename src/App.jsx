@@ -62,7 +62,7 @@ function App() {
           timeStep: activeRunConfig.time_step,
         });
         setVehicleQueue((queue) =>
-          advanceVehicleQueue(queue, activeRunConfig, { stepStartTime: current.simTime }),
+          advanceVehicleQueue(queue, activeRunConfig, { stepEndTime: next.simTime }),
         );
         return next;
       });

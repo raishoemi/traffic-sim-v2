@@ -31,7 +31,8 @@ export function getTrackedVehicle(queue) {
   return queue.find((vehicle) => vehicle.isTracked) ?? null;
 }
 
-export function advanceVehicleQueue(queue, config, { stepStartTime }) {
+export function advanceVehicleQueue(queue, config, { stepEndTime }) {
+  const stepStartTime = Math.max(stepEndTime - config.time_step, 0);
   const nextQueue = [];
 
   for (let index = 0; index < queue.length; index += 1) {
