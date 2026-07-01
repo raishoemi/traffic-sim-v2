@@ -48,7 +48,7 @@ export function advanceSimulationClock(clock, { greenDuration, timeStep }) {
 }
 
 export function describeSeedMode({ rng_seed, reaction_delay_std }) {
-  if (rng_seed !== null && rng_seed !== '') {
+  if (rng_seed !== null && rng_seed !== undefined && rng_seed !== '') {
     return `Seeded run · seed ${rng_seed}`;
   }
 

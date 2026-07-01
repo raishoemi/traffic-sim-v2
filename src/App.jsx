@@ -14,7 +14,13 @@ import {
   startSimulationClock,
 } from './sim/controls.js';
 
-const DEFAULT_VALID_PARAMETERS = validateParameterDraft(createParameterDraft()).values;
+const DEFAULT_PARAMETER_VALIDATION = validateParameterDraft(createParameterDraft());
+
+if (!DEFAULT_PARAMETER_VALIDATION.isValid) {
+  throw new Error('Default parameters must stay valid.');
+}
+
+const DEFAULT_VALID_PARAMETERS = DEFAULT_PARAMETER_VALIDATION.values;
 
 function formatSeconds(value) {
   return `${value.toFixed(2)} s`;
@@ -40,7 +46,7 @@ function App() {
           timeStep: activeRunConfig.time_step,
         }),
       );
-    }, Math.max(activeRunConfig.time_step * 1000, 16));
+    }, activeRunConfig.time_step * 1000);
 
     return () => window.clearInterval(timerId);
   }, [activeRunConfig.green_duration, activeRunConfig.time_step, simulation.phase]);

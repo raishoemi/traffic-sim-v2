@@ -83,10 +83,6 @@ Task completion rule: when you finish a task, update its status in this file bef
 
 ---
 
-How to mark a task complete:
-- Update the matching `Status:` line in this file so the next agent sees the current state.
-- If the session DB is populated, update the SQL row too.
-
 How to mark a task in the session DB as in_progress or done:
 - Use the SQL tool to update status, for example:
   UPDATE todos SET status = 'in_progress' WHERE id = 'repo-scaffold';
