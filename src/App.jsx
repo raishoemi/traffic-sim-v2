@@ -1,121 +1,104 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from './assets/vite.svg';
-import heroImg from './assets/hero.png';
+import { useMemo, useState } from 'react';
 import './App.css';
+import {
+  createParameterDraft,
+  DEFAULT_PARAMETERS,
+  PARAMETER_FIELDS,
+  validateParameterDraft,
+} from './params.js';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [draft, setDraft] = useState(() => createParameterDraft());
+  const validation = useMemo(() => validateParameterDraft(draft), [draft]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setDraft((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleReset = () => {
+    setDraft(createParameterDraft(DEFAULT_PARAMETERS));
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+    <main className="app-shell">
+      <section className="hero-panel">
+        <p className="eyebrow">Traffic simulator</p>
+        <h1>Configure a single traffic-light trial</h1>
+        <p className="intro">
+          Set the simulation inputs in metric units before wiring up the run controls
+          and animation.
+        </p>
+      </section>
+
+      <section className="layout">
+        <form className="panel parameter-panel" aria-labelledby="parameters-title">
+          <div className="panel-header">
+            <div>
+              <h2 id="parameters-title">Parameters</h2>
+              <p>Defaults are tuned for an MVP run with 10 queued vehicles.</p>
+            </div>
+            <button type="button" className="secondary-button" onClick={handleReset}>
+              Restore defaults
+            </button>
+          </div>
+
+          <div className="field-grid">
+            {PARAMETER_FIELDS.map((field) => {
+              const error = validation.errors[field.name];
+              const hintId = `${field.name}-hint`;
+              const errorId = `${field.name}-error`;
+
+              return (
+                <label key={field.name} className="field">
+                  <span className="field-label">
+                    {field.label}
+                    <span className="field-unit">{field.unit}</span>
+                  </span>
+                  <input
+                    name={field.name}
+                    type={field.type}
+                    inputMode={field.type === 'number' ? 'decimal' : undefined}
+                    value={draft[field.name]}
+                    onChange={handleChange}
+                    min={field.min}
+                    step={field.step}
+                    aria-invalid={error ? 'true' : 'false'}
+                    aria-describedby={error ? `${hintId} ${errorId}` : hintId}
+                  />
+                  <span id={hintId} className="field-hint">
+                    {field.description}
+                  </span>
+                  {error ? (
+                    <span id={errorId} className="field-error" role="alert">
+                      {error}
+                    </span>
+                  ) : null}
+                </label>
+              );
+            })}
+          </div>
+        </form>
+
+        <aside className="panel summary-panel" aria-labelledby="summary-title">
+          <h2 id="summary-title">Current setup</h2>
+          <p className={`status ${validation.isValid ? 'is-valid' : 'is-invalid'}`}>
+            {validation.isValid
+              ? 'Ready for the next simulation controls task.'
+              : 'Fix the highlighted values before running a trial.'}
           </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+
+          <dl className="summary-list">
+            {PARAMETER_FIELDS.map((field) => (
+              <div key={field.name} className="summary-row">
+                <dt>{field.label}</dt>
+                <dd>{draft[field.name] === '' ? '—' : `${draft[field.name]} ${field.unit}`}</dd>
+              </div>
+            ))}
+          </dl>
+        </aside>
       </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    </main>
   );
 }
 
