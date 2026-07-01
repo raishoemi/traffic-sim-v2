@@ -49,7 +49,6 @@ function App() {
   const [vehicleQueue, setVehicleQueue] = useState(() =>
     createVehicleQueue(DEFAULT_VALID_PARAMETERS),
   );
-  const [trialResult, setTrialResult] = useState(null);
 
   useEffect(() => {
     if (simulation.phase !== 'running') {
@@ -70,7 +69,7 @@ function App() {
     }, activeRunConfig.time_step * 1000);
 
     return () => window.clearInterval(timerId);
-  }, [activeRunConfig.green_duration, activeRunConfig.time_step, simulation.phase]);
+  }, [activeRunConfig, simulation.phase]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -92,10 +91,9 @@ function App() {
     if (!validation.isValid) {
       return;
     }
-
     setActiveRunConfig(validation.values);
     setVehicleQueue(createVehicleQueue(validation.values));
-    setTrialResult(null);
+    setVehicleQueue(createVehicleQueue(validation.values));
     setSimulation(
       startSimulationClock(
         createSimulationClock({ greenDuration: validation.values.green_duration }),
@@ -113,44 +111,37 @@ function App() {
     const resetRunConfig = runConfig;
     setActiveRunConfig(resetRunConfig);
     setVehicleQueue(createVehicleQueue(resetRunConfig));
-    setTrialResult(null);
     setSimulation(createSimulationClock({ greenDuration: resetRunConfig.green_duration }));
   };
-
-  useEffect(() => {
-    if (trialResult) {
-      return;
-    }
-
-    const trackedVehicle = getTrackedVehicle(vehicleQueue);
-    if (!trackedVehicle) {
-      return;
-    }
-
-    if (trackedVehicle.crossTime !== null) {
-      setTrialResult({
-        status:
-          trackedVehicle.crossTime < activeRunConfig.green_duration ? 'pass' : 'fail',
-        crossTime: trackedVehicle.crossTime,
-        lastPosition: trackedVehicle.position,
-      });
-      return;
-    }
-
-    if (simulation.phase === 'completed') {
-      setTrialResult({
-        status: 'fail',
-        crossTime: null,
-        lastPosition: trackedVehicle.position,
-      });
-    }
-  }, [activeRunConfig.green_duration, simulation.phase, trialResult, vehicleQueue]);
 
   const isRunDisabled = !validation.isValid && simulation.phase !== 'paused';
   const isPauseDisabled = simulation.phase !== 'running';
   const isResetDisabled = simulation.phase === 'idle' && simulation.simTime === 0;
   const runButtonLabel = simulation.phase === 'paused' ? 'Resume' : 'Run';
   const trackedVehicle = getTrackedVehicle(vehicleQueue);
+  const trialResult = useMemo(() => {
+    if (!trackedVehicle) {
+      return null;
+    }
+
+    if (trackedVehicle.crossTime !== null) {
+      return {
+        status: trackedVehicle.crossTime < activeRunConfig.green_duration ? 'pass' : 'fail',
+        crossTime: trackedVehicle.crossTime,
+        lastPosition: trackedVehicle.position,
+      };
+    }
+
+    if (simulation.phase === 'completed') {
+      return {
+        status: 'fail',
+        crossTime: null,
+        lastPosition: trackedVehicle.position,
+      };
+    }
+
+    return null;
+  }, [activeRunConfig.green_duration, simulation.phase, trackedVehicle]);
   const simulationStatus =
     simulation.phase === 'running'
       ? 'Simulation running'
