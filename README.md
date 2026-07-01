@@ -30,3 +30,5 @@ This repository is scaffolded and ready for incremental implementation of the tr
 - `/docs/intent/traffic-sim.md`
 - `/docs/specs/traffic-sim-spec.md`
 - `/docs/tasks/todo-list.md`
+
+When an agent completes a task from `/docs/tasks/todo-list.md`, it should update that task's `Status:` entry before finishing. If the session SQL tracker is populated, keep the SQL status in sync as well.
