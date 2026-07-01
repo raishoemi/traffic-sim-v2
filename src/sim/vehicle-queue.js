@@ -28,7 +28,7 @@ export function createVehicleQueue(config) {
 }
 
 export function getTrackedVehicle(queue) {
-  return queue.find((vehicle) => vehicle.isTracked) ?? queue.at(-1) ?? null;
+  return queue.find((vehicle) => vehicle.isTracked) ?? null;
 }
 
 export function advanceVehicleQueue(queue, config, { stepStartTime }) {

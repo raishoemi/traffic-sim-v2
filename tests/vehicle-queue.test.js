@@ -30,6 +30,13 @@ test('createVehicleQueue: creates a seeded queue and tracks the last car', () =>
   );
 });
 
+test('getTrackedVehicle: returns null when no tracked car exists', () => {
+  assert.equal(
+    getTrackedVehicle([{ id: 'car-1', position: -1, velocity: 0, isTracked: false }]),
+    null,
+  );
+});
+
 test('advanceVehicleQueue: lead car reacts first and followers wait for the queue to start moving', () => {
   const config = {
     num_cars: 2,
